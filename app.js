@@ -1,30 +1,32 @@
-const config = require('./utils/config')
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const cors = require('cors')
-const blogsRouter = require('./controllers/blog')
-const middleware = require('./utils/middleware')
-const mongoose = require('mongoose')
+const express = require('express');
+const bodyParser = require('body-parser');
 
-console.log('connecting to', config.MONGODB_URI)
+const app = express();
+const cors = require('cors');
+const mongoose = require('mongoose');
+const blogsRouter = require('./controllers/blog');
+const middleware = require('./utils/middleware');
+const config = require('./utils/config');
 
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('connected to MongoDB')
-  })
-  .catch((error) => {
-    console.log('error connection to MongoDB:', error.message)
-  })
+console.log('connecting to', config.MONGODB_URI);
 
-app.use(cors())
-//app.use(express.static('build'))
-app.use(bodyParser.json())
-app.use(middleware.requestLogger)
+const serverConnected = async () => {
+  try {
+    await mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log('connected to mongo DataBase');
+  } catch (error) { console.log('error connection to MongoDB:', error.message); }
+};
 
-app.use('/api/blogs', blogsRouter)
+serverConnected();
 
-app.use(middleware.unknownEndpoint)
-app.use(middleware.errorHandler)
+app.use(cors());
+// app.use(express.static('build'))
+app.use(bodyParser.json());
+app.use(middleware.requestLogger);
 
-module.exports = app
+app.use('/api/blogs', blogsRouter);
+
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
+
+module.exports = app;
