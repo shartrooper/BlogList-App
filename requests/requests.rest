@@ -4,11 +4,21 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Marko/'s blog",
-    "author": "Marko",
-    "url":"https://somethingVeryAwful.com",
-    "likes":"-999"
+    "title": "Cancerous/'s blog",
+    "author": "More cancer than ever",
+    "url":"https://cringy-as-hell.com",
+    "likes":"999"
 }
 
 ###
 GET http://localhost:3001/api/blogs
+
+###
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Marianas blog",
+    "author": "Salty deep",
+    "url":"https://goindarkbasin.com"
+}
