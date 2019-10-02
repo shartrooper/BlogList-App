@@ -22,3 +22,7 @@ Content-Type: application/json
     "author": "Salty deep",
     "url":"https://goindarkbasin.com"
 }
+
+###
+
+DELETE  http://localhost:3001/api/blogs/5d90ef99f41613150cf4793b

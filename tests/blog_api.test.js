@@ -44,11 +44,10 @@ beforeEach(async () => {
 
 describe('note api', () => {
   test('Every blog is returned', async () => {
-    try {
-      const response = await api.get('/api/blogs');
-      console.log('Response body length : ', response.body.length, ' Mock blog data length : ', helper.initialBloglist.length);
-      expect(response.body.length).toBe(helper.initialBloglist.length);
-    } catch (error) { console.log(error); }
+    const response = await api.get('/api/blogs');
+    console.log('Response body length : ', response.body.length,
+      ' Mock blog data length : ', helper.initialBloglist.length);
+    expect(response.body.length).toBe(helper.initialBloglist.length);
   });
 
   test('Every blog post has id property', async () => {
@@ -113,6 +112,38 @@ describe('note api', () => {
     const blogsAtEnd = await helper.blogsInDb();
 
     expect(blogsAtEnd.length).toBe(helper.initialBloglist.length);
+  });
+
+  test('pick a random id from a valid blog post and delete it', async () => {
+    const ablogToDeleteFromList = await helper.blogsInDb();
+    // eslint-disable-next-line max-len
+    const pickedToDelete = ablogToDeleteFromList[helper.returnRandNumber(ablogToDeleteFromList.length)];
+    await api
+      .delete(`/api/blogs/${pickedToDelete.id}`)
+      .expect(204);
+    console.log('the selected blog to be erased is:', pickedToDelete.title);
+    const updatedBlogList = await helper.blogsInDb();
+    expect(ablogToDeleteFromList.length - 1).toBe(updatedBlogList.length);
+  });
+
+  test('update a random blog with new likes', async () => {
+    const ablogToUpdatefromList = await helper.blogsInDb();
+    const rand = helper.returnRandNumber(ablogToUpdatefromList.length);
+    const pickedToUpdate = ablogToUpdatefromList[rand];
+    const UpdatedBlog = {
+      title: pickedToUpdate.title,
+      author: pickedToUpdate.author,
+      url: pickedToUpdate.url,
+      likes: helper.returnRandNumber(999),
+    };
+
+    await api
+      .put(`/api/blogs/${pickedToUpdate.id}`)
+      .send(UpdatedBlog)
+      .expect(200);
+    console.log('the selected blog is going to be updated', pickedToUpdate.title);
+    const updatedBlogList = await helper.blogsInDb();
+    expect(UpdatedBlog.likes).toBe(updatedBlogList[rand].likes);
   });
 });
 
