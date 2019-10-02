@@ -60,4 +60,11 @@ const blogDefaultLikes = async (title) => {
   const blog = await Blog.find({ title });
   return blog[0].toJSON();
 };
-module.exports = { initialBloglist, blogsInDb, blogDefaultLikes };
+
+const returnRandNumber = (num) => {
+  const ranNum = Math.round(Math.random() * num);
+  return ranNum;
+};
+module.exports = {
+  initialBloglist, blogsInDb, blogDefaultLikes, returnRandNumber,
+};

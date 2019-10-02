@@ -12,7 +12,7 @@ console.log('connecting to', config.MONGODB_URI);
 
 const serverConnected = async () => {
   try {
-    await mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
     console.log('connected to mongo DataBase');
   } catch (error) { console.log('error connection to MongoDB:', error.message); }
 };
