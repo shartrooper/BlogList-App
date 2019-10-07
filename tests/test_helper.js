@@ -1,5 +1,6 @@
 const Blog = require('../model/blogs');
-
+const User = require('../model/user')
+;
 const initialBloglist = [
   {
     // _id: '5a422a851b54a676234d17f7',
@@ -51,6 +52,24 @@ const initialBloglist = [
   },
 ];
 
+const initialUserlist = [
+  {
+    username: 'hellas',
+    name: 'Arto Hellas',
+    password: 'salainen',
+  },
+  {
+    username: 'luision',
+    name: 'Luis Ausion',
+    password: 'ausslui99',
+  },
+  {
+    username: 'dilburt',
+    name: 'Dilburtom Gal',
+    password: 'galiodibs96',
+  },
+];
+
 const blogsInDb = async () => {
   const existingBlog = await Blog.find({});
   return existingBlog.map((blog) => blog.toJSON());
@@ -65,6 +84,11 @@ const returnRandNumber = (num) => {
   const ranNum = Math.round(Math.random() * num);
   return ranNum;
 };
+
+const usersInDb = async () => {
+  const existingUsers = await User.find({});
+  return existingUsers.map((u) => u.toJSON());
+};
 module.exports = {
-  initialBloglist, blogsInDb, blogDefaultLikes, returnRandNumber,
+  initialBloglist, blogsInDb, blogDefaultLikes, returnRandNumber, initialUserlist, usersInDb,
 };

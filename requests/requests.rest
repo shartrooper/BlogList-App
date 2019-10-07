@@ -1,7 +1,8 @@
 
-//Localhost
+### create new blog, add valid token after login
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNWQ5OTA0ZWJjZmZiMDQxNjNjNjczNWQ3IiwiaWF0IjoxNTcwNDA2NTY4fQ.1rUmXQMkzaCiBEika2NRf4Nm2mlQgA78IC5WeOuNcBI
 
 {
     "title": "Cancerous/'s blog",
@@ -23,6 +24,63 @@ Content-Type: application/json
     "url":"https://goindarkbasin.com"
 }
 
-###
+### Delete a blog of logged in user
 
-DELETE  http://localhost:3001/api/blogs/5d90ef99f41613150cf4793b
+DELETE  http://localhost:3001/api/blogs/5d990b255a9393097436c218
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNWQ5OTA0ZWJjZmZiMDQxNjNjNjczNWQ3IiwiaWF0IjoxNTcwNDA5ODc0fQ.G-BPMg0cBaP9okuWra0tY-edxJfaOmMsKutW6BXzoFY
+
+### User creation
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "hellas",
+    "name": "Arto Hellas",
+    "password": "salainen"
+}
+
+### 2nd User creation
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "mluukkai",
+    "name": "Matti Lukkainen",
+    "password": "salainen"
+}
+
+### blog creater alongside any user as creator
+
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Pools of Radiance",
+    "author": "Gorath the Moredhel",
+    "url":"https://KrondorThisWay.com"
+}
+
+
+### Unacceptable password length
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "Invalid",
+    "name": "Shorty",
+    "password": "s"
+}
+
+### GET users
+GET http://localhost:3001/api/users
+
+### LOGIN a valid user
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "hellas",
+    "password": "salainen"
+}
