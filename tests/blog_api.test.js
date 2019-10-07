@@ -6,6 +6,7 @@ const app = require('../app');
 
 const api = supertest(app);
 const Blog = require('../model/blogs');
+const User = require('../model/user');
 const helper = require('./test_helper');
 
 
@@ -34,15 +35,16 @@ Then you can run tests directly with the jest command.
 
 */
 
-beforeEach(async () => {
-  await Blog.deleteMany({});
-  const blogObjects = helper.initialBloglist
-    .map((blog) => new Blog(blog));
-  const promiseArray = blogObjects.map((blog) => blog.save());
-  await Promise.all(promiseArray);
-});
 
 describe('note api', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({});
+    const blogObjects = helper.initialBloglist
+      .map((blog) => new Blog(blog));
+    const promiseArray = blogObjects.map((blog) => blog.save());
+    await Promise.all(promiseArray);
+  });
+
   test('Every blog is returned', async () => {
     const response = await api.get('/api/blogs');
     console.log('Response body length : ', response.body.length,
@@ -144,6 +146,37 @@ describe('note api', () => {
     console.log('the selected blog is going to be updated', pickedToUpdate.title);
     const updatedBlogList = await helper.blogsInDb();
     expect(UpdatedBlog.likes).toBe(updatedBlogList[rand].likes);
+  });
+});
+
+describe('user api', () => {
+  beforeEach(async () => {
+    await User.deleteMany({});
+    const userObjects = helper.initialUserlist
+      .map((u) => new User(u));
+    const promiseArray = userObjects.map((u) => u.save());
+    await Promise.all(promiseArray);
+  });
+
+  test('Every user is returned', async () => {
+    const response = await api.get('/api/users');
+    expect(response.body.length).toBe(helper.initialUserlist.length);
+  });
+
+  test('User with invalid passwords are not created', async () => {
+    const invalidNewUser = {
+      username: 'davis',
+      name: 'fake davix',
+      password: '01',
+    };
+
+    await api
+      .post('/api/users')
+      .send(invalidNewUser)
+      .expect(403);
+
+    const currentUserData = await helper.usersInDb();
+    expect(currentUserData.length).toBe(helper.initialUserlist.length);
   });
 });
 
