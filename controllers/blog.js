@@ -24,7 +24,7 @@ blogsRouter.post('/', async (request, response, next) => {
     /* const findAUser = await User.findOne({}); */
 
     const foundLogged = await User.findById(decodedToken.id);
-    console.log(foundLogged);
+
     const newBblog = new Blog({
       title: body.title,
       author: body.author,
@@ -65,15 +65,29 @@ blogsRouter.delete('/:id', async (request, response, next) => {
 blogsRouter.put('/:id', async (request, response, next) => {
   const { body } = request;
 
-  const post = {
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes,
-  };
   try {
-    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, post, { new: true });
-    response.json(updatedBlog.toJSON());
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    const blog = await Blog.findById(request.params.id);
+
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing' });
+    }
+
+    if (blog.user.toString() === decodedToken.id) {
+      const foundLogged = await User.findById(decodedToken.id);
+      const updateTheseProperties = {
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        likes: body.likes,
+        user: foundLogged.id,
+      };
+      // eslint-disable-next-line max-len
+      const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, updateTheseProperties, { new: true });
+      response.json(updatedBlog.toJSON());
+    } else {
+      return response.status(401).json({ error: 'An Invalid user cannot update this blog' });
+    }
   } catch (error) { next(error); }
 });
 

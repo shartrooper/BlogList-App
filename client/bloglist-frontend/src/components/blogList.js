@@ -1,12 +1,13 @@
 import React from 'react';
-import Blog from './Blog'
+import Blog from './Blog';
 
-const BlogList = ({ blogs,user }) => {
+const BlogList = ({ blogs,user,updateBlogList }) => {
 
     const blogFilter=() =>
   {
     const filteredList= blogs.filter((blog) => blog.user.name === user.name);
-    return filteredList.map((blog,index)=><Blog key={`${blog.user.name}${index}`} blog={blog} />)
+    filteredList.sort((a,b)=> b.likes-a.likes);
+    return filteredList.map((blog,index)=><Blog key={`${blog.user.name}${index}`} blog={blog} user={user} updateBlogList={updateBlogList} />)
   } 
     return (
         <ul id="blog-list">

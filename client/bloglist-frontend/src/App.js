@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import LoginForm from './components/loginForm'
 import BlogForm from './components/newBlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/togglable'
 
 function App() {
   const [blogs, setBlogs] = useState([]);
@@ -53,8 +54,10 @@ function App() {
        <Notification message={modalMessage} />
       <p>{user.name} is currently logged in! <button type="button" onClick={logoutFun}>Logout user</button></p>
       <h3>Create new blog</h3>
-      <BlogForm  updateBlogList={updateBlogList} setModalMessage={setModalMessage}/>
-      <BlogList blogs={blogs} user={user} />
+      <Togglable buttonLabel="New blog">
+          <BlogForm  updateBlogList={updateBlogList} setModalMessage={setModalMessage}/>
+      </Togglable>
+      <BlogList updateBlogList={updateBlogList} blogs={blogs} user={user} />
       </div>}
     </div>
   );

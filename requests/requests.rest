@@ -2,7 +2,7 @@
 ### create new blog, add valid token after login
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNWQ5OTA0ZWJjZmZiMDQxNjNjNjczNWQ3IiwiaWF0IjoxNTcwNDA2NTY4fQ.1rUmXQMkzaCiBEika2NRf4Nm2mlQgA78IC5WeOuNcBI
+Authorization: bearer --
 
 {
     "title": "Cancerous/'s blog",
@@ -27,7 +27,7 @@ Content-Type: application/json
 ### Delete a blog of logged in user
 
 DELETE  http://localhost:3001/api/blogs/5d990b255a9393097436c218
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNWQ5OTA0ZWJjZmZiMDQxNjNjNjczNWQ3IiwiaWF0IjoxNTcwNDA5ODc0fQ.G-BPMg0cBaP9okuWra0tY-edxJfaOmMsKutW6BXzoFY
+Authorization: bearer --
 
 ### User creation
 
