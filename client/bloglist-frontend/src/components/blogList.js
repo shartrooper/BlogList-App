@@ -10,7 +10,7 @@ const BlogList = ({ blogs,user,updateBlogList }) => {
     return filteredList.map((blog,index)=><Blog key={`${blog.user.name}${index}`} blog={blog} user={user} updateBlogList={updateBlogList} />)
   } 
     return (
-        <ul id="blog-list">
+        <ul className="blog-list">
             {blogFilter()}
         </ul>
     );

@@ -31,7 +31,7 @@ describe('<Blog />', () => {
         expect(div).toHaveStyle('display: none');
     })
 
-    test("when the blog post is clicked, extr info becomes visible", () => {
+    test("when the blog post is clicked, additional info becomes visible", () => {
        const p = component.getByText('Tester Blogs - Marko Antonio');
        const div = component.container.querySelector('.hidden-wrapper');
        fireEvent.click(p);

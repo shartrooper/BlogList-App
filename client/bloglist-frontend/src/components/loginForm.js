@@ -17,7 +17,7 @@ const LoginForm = ({
       });
 
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user),
+        'loggedBlogAppUser', JSON.stringify(user),
       );
 
       blogService.setToken(user.token);
@@ -33,7 +33,7 @@ const LoginForm = ({
   };
 
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} className="login-form">
       <div>
         Username
         {' '}
