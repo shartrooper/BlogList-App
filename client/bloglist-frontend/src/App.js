@@ -20,7 +20,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser');
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser');
     if (loggedUserJSON) {
       const currentUser = JSON.parse(loggedUserJSON);
       setUser(currentUser);
@@ -49,7 +49,7 @@ function App() {
             setModalMessage={setModalMessage}
           />
         </div>
-      ) : <div id="blogs-wrapper">
+      ) : <div id="blogs-wrapper" className='blogs-wrapper'>
       <h3>blogs</h3> 
        <Notification message={modalMessage} />
       <p>{user.name} is currently logged in! <button type="button" onClick={logoutFun}>Logout user</button></p>

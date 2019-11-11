@@ -35,7 +35,7 @@ const Blog = ({ blog, user, updateBlogList }) => {
     setVisible(!visible);
   };
 
-  return (<li style={blogStyle} >
+  return (<li style={blogStyle} className='blog'>
     <p onClick={toggleVisibility} style={{ cursor: "pointer" }}>{blog.title}{' - '}{blog.author}</p>
     <div style={showWhenVisible} className="hidden-wrapper">
       <p>Url:<a href={blog.url}>{blog.url}</a></p>
