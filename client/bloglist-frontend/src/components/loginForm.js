@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import loginService from '../services/login';
 import blogService from '../services/blogs';
+import { useField } from '../hooks/index'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({
+
   setUser, setModalMessage,
 }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  //const [username, setUsername] = useState('');
+  const username = useField('text');
+  //const [password, setPassword] = useState('');
+  const password = useField('password');
+
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log('logging in with', username, password);
+    console.log('logging in with', username.input.value, password.input.value);
     try {
       const user = await loginService.login({
-        username, password,
+        username: username.input.value, password: password.input.value,
       });
 
       window.localStorage.setItem(
@@ -22,8 +27,10 @@ const LoginForm = ({
 
       blogService.setToken(user.token);
       setUser(user);
-      setUsername('');
-      setPassword('');
+      //setUsername('');
+      username.reset();
+      //setPassword('');
+      password.reset();
     } catch (exception) {
       setModalMessage({ message: 'Wrong credentials or user doesn\'t exist !', style: { color: 'red', border: 'red 3px solid', fontSize: 20 } });
       setTimeout(() => {
@@ -38,20 +45,22 @@ const LoginForm = ({
         Username
         {' '}
         <input
-          type="text"
+          /*type="text"
           value={username}
           name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+          onChange={({ target }) => setUsername(target.value)}*/
+          {...username.input}
         />
       </div>
       <div>
         Password
         {' '}
         <input
-          type="password"
+          /*type="password"
           value={password}
           name="Password"
-          onChange={({ target }) => setPassword(target.value)}
+          onChange={({ target }) => setPassword(target.value)}*/
+          {...password.input}
         />
       </div>
       <button type="submit">login</button>
@@ -60,8 +69,8 @@ const LoginForm = ({
 };
 
 
-LoginForm.propTypes = {  
-  setModalMessage: PropTypes.func.isRequired,  
+LoginForm.propTypes = {
+  setModalMessage: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
 };
 

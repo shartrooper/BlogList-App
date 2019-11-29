@@ -14,7 +14,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test-mocks":"set CI=true&&npm test -- --coverage"
+    "test-mocks": "set CI=true&&npm test -- --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
