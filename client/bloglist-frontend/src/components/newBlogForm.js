@@ -1,8 +1,7 @@
 import React from 'react';
-import blogService from '../services/blogs';
 import {useField} from '../hooks/index'
 
-const BlogForm = ({updateBlogList, setModalMessage }) => {
+const BlogForm = ({updateBlogList, setModalMessage,createBlog }) => {
     //const [title, setTitle] = useState('');
     const title= useField();
     //const [author, setAuthor] = useState('');
@@ -14,14 +13,13 @@ const BlogForm = ({updateBlogList, setModalMessage }) => {
         try {
             e.preventDefault();
             const newBlog = { title:title.input.value, author:author.input.value, url: url.input.value };
-            const addedBlog=await blogService.create(newBlog);
-            const updatedUserBlogList= await blogService.getAll();
             
-            updateBlogList(updatedUserBlogList);
+            createBlog(newBlog);
+            updateBlogList();
             title.reset();
             author.reset();
             url.reset();
-            setModalMessage({ message:`A new blog "${addedBlog.title}" by ${addedBlog.author} added`, style: { color: 'green', border: 'green 3px solid', fontSize: 20 } });
+            setModalMessage({ message:`A new blog "${newBlog.title}" by ${newBlog.author} added`, style: { color: 'green', border: 'green 3px solid', fontSize: 20 } });
             setTimeout(() => {
                 setModalMessage(null);
             }, 3500);
