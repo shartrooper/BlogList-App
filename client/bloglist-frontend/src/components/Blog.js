@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 
-const Blog = ({ blog, user, updateBlogList }) => {
+const Blog = ({ blog, user, updateBlogList, updateBlog, removeBlog }) => {
   const [visible, setVisible] = useState(false);
   const blogStyle = {
     paddingTop: 10,
@@ -15,9 +14,8 @@ const Blog = ({ blog, user, updateBlogList }) => {
   const handleLike = async (e) => {
     try {
       const currentBlog = { title: blog.title, author: blog.author, likes: blog.likes + 1, url: blog.url };
-      await blogService.update(blog.id, currentBlog);
-      const updatedUserBlogList = await blogService.getAll();
-      updateBlogList(updatedUserBlogList);
+      updateBlog(blog.id, currentBlog); 
+      updateBlogList();
     } catch (exception) {
       console.log(exception)
     }
@@ -25,9 +23,8 @@ const Blog = ({ blog, user, updateBlogList }) => {
 
   const handleRemove = async (id) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      await blogService.remove(id);
-      const updatedUserBlogList = await blogService.getAll();
-      updateBlogList(updatedUserBlogList);
+      removeBlog(id);
+      updateBlogList();
     }
   }
 

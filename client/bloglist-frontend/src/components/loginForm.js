@@ -1,16 +1,13 @@
 import React from 'react';
 import loginService from '../services/login';
-import blogService from '../services/blogs';
 import { useField } from '../hooks/index'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({
 
-  setUser, setModalMessage,
+  setUser, setModalMessage,setToken
 }) => {
-  //const [username, setUsername] = useState('');
   const username = useField('text');
-  //const [password, setPassword] = useState('');
   const password = useField('password');
 
   const handleLogin = async (event) => {
@@ -25,11 +22,9 @@ const LoginForm = ({
         'loggedBlogAppUser', JSON.stringify(user),
       );
 
-      blogService.setToken(user.token);
+      setToken(user.token)
       setUser(user);
-      //setUsername('');
-      username.reset();
-      //setPassword('');
+      username.reset();      
       password.reset();
     } catch (exception) {
       setModalMessage({ message: 'Wrong credentials or user doesn\'t exist !', style: { color: 'red', border: 'red 3px solid', fontSize: 20 } });
