@@ -45,7 +45,7 @@ function App() {
     try{
       let createdBlog=await blogService.create(blog);
       createdBlog={...createdBlog, user: user};
-      blogService.setResources(...blogs,blog)
+      blogService.setResources([...blogs,createdBlog]);
     }
     catch(error){
       console.log(error)
