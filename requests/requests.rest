@@ -1,6 +1,6 @@
 
 ### create new blog, add valid token after login
-POST http://localhost:3001/api/blogs
+POST http://localhost:3003/api/blogs
 Content-Type: application/json
 Authorization: bearer --
 
@@ -12,10 +12,10 @@ Authorization: bearer --
 }
 
 ###
-GET http://localhost:3001/api/blogs
+GET http://localhost:3003/api/blogs
 
 ###
-POST http://localhost:3001/api/blogs
+POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
@@ -26,12 +26,12 @@ Content-Type: application/json
 
 ### Delete a blog of logged in user
 
-DELETE  http://localhost:3001/api/blogs/5d990b255a9393097436c218
+DELETE  http://localhost:3003/api/blogs/5d990b255a9393097436c218
 Authorization: bearer --
 
 ### User creation
 
-POST http://localhost:3001/api/users
+POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {

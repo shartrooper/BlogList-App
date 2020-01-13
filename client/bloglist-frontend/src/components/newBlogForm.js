@@ -1,7 +1,7 @@
 import React from 'react';
 import {useField} from '../hooks/index'
 
-const BlogForm = ({updateBlogList, setModalMessage,createBlog }) => {
+const BlogForm = ({setModalMessage,createBlog }) => {
     //const [title, setTitle] = useState('');
     const title= useField();
     //const [author, setAuthor] = useState('');
@@ -14,8 +14,7 @@ const BlogForm = ({updateBlogList, setModalMessage,createBlog }) => {
             e.preventDefault();
             const newBlog = { title:title.input.value, author:author.input.value, url: url.input.value };
             
-            createBlog(newBlog);
-            updateBlogList();
+            await createBlog(newBlog);
             title.reset();
             author.reset();
             url.reset();
