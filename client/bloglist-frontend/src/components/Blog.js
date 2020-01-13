@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, user, updateBlogList, updateBlog, removeBlog }) => {
+const Blog = ({ blog, user, updateBlog, removeBlog }) => {
   const [visible, setVisible] = useState(false);
   const blogStyle = {
     paddingTop: 10,
@@ -11,20 +11,18 @@ const Blog = ({ blog, user, updateBlogList, updateBlog, removeBlog }) => {
   }
   const showWhenVisible = { display: visible ? '' : 'none' };
 
-  const handleLike = async (e) => {
+  const handleLike = async () => {
     try {
       const currentBlog = { title: blog.title, author: blog.author, likes: blog.likes + 1, url: blog.url };
-      updateBlog(blog.id, currentBlog); 
-      updateBlogList();
+      await updateBlog(blog.id, currentBlog); 
     } catch (exception) {
       console.log(exception)
     }
   }
 
-  const handleRemove = async (id) => {
+  const handleRemove = (id) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       removeBlog(id);
-      updateBlogList();
     }
   }
 

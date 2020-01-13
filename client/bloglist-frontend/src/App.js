@@ -5,6 +5,7 @@ import LoginForm from './components/loginForm'
 import BlogForm from './components/newBlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/togglable'
+import loginService from './services/login';
 
 function App() {
   const [blogs, blogService] = useResource('/api/blogs');
@@ -12,22 +13,25 @@ function App() {
   const [modalMessage, setModalMessage] = useState(null);
 
   useEffect(() => {
-    const getAllblogs = async () => {
-      await blogService.getAll();
-    }
-    getAllblogs();
+   const getBlogsfromResource=  async ()=> {   
+      try{
+        const data=await blogService.getAll();
+        blogService.setResources(data);
+      }
+      catch(error){
+        console.log(error);
+      }
+  }
+    getBlogsfromResource();
   }, []);
 
-  useEffect(() => {
-    const subscribeUser= async ()=>{
+  useEffect(() => {  
       const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser');
       if (loggedUserJSON) {
         const currentUser = JSON.parse(loggedUserJSON);
-      setUser(currentUser);
-      blogService.setToken(currentUser.token);
-    }
-  }
-  subscribeUser();
+        setUser(currentUser);
+        blogService.setToken(currentUser.token);
+      }
   }, []);
 
   const logoutFun = () => {
@@ -36,15 +40,38 @@ function App() {
   };
 
   const setTokenUser=(token)=> blogService.setToken(token);
-  const updateBlogList= ()=> blogService.getAll();
-  const createBlog= (blog) => blogService.create(blog);
-  const updateBlog= async (id,content) =>{
-    let error = await blogService.update(id,content);
-    
-    if(error){ console.log(error.name + ': ' + error.message)}
+
+  const createBlog= async (blog) =>{
+    try{
+      let createdBlog=await blogService.create(blog);
+      createdBlog={...createdBlog, user: user};
+      blogService.setResources(...blogs,blog)
+    }
+    catch(error){
+      console.log(error)
+    }    
   }
 
-  const removeBlog= async (id) => blogService.remove(id);
+  const updateBlog= async (id,content) =>{
+    try{
+      let updatedBlog= await blogService.update(id,content);
+      updatedBlog={...updatedBlog, user: user};
+      blogService.setResources(blogs.map((blog) => blog.id !== id ? blog : updatedBlog));
+    }
+    catch(error){ 
+      console.log(error.name + ': ' + error.message)
+    }
+  }
+
+  const removeBlog= async (id) =>{ 
+    try{
+      await blogService.remove(id);
+      blogService.setResources(blogs.filter((blog)=> blog.id !== id))
+    }
+    catch(error){
+      console.log(error);
+    }
+  };
 
   return (
   <div id='wrapper'>
@@ -65,9 +92,9 @@ function App() {
       <p>{user.name} is currently logged in! <button type="button" onClick={logoutFun}>Logout user</button></p>
       <h3>Create new blog</h3>
       <Togglable buttonLabel="New blog">
-          <BlogForm  updateBlogList={updateBlogList} createBlog={createBlog} setModalMessage={setModalMessage}/>
+          <BlogForm   createBlog={createBlog} setModalMessage={setModalMessage}/>
       </Togglable>
-      <BlogList updateBlogList={updateBlogList} updateBlog={updateBlog} removeBlog={removeBlog} blogs={blogs} user={user} />
+      <BlogList  updateBlog={updateBlog} removeBlog={removeBlog} blogs={blogs} user={user} />
       </div>}
     </div>
   );
