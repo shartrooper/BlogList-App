@@ -5,7 +5,6 @@ import LoginForm from './components/loginForm'
 import BlogForm from './components/newBlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/togglable'
-import loginService from './services/login';
 
 function App() {
   const [blogs, blogService] = useResource('/api/blogs');
@@ -87,7 +86,7 @@ function App() {
           />
         </div>
       ) : <div id="blogs-wrapper" className='blogs-wrapper'>
-      <h3>blogs</h3> 
+      <h3>Blogs</h3> 
        <Notification message={modalMessage} />
       <p>{user.name} is currently logged in! <button type="button" onClick={logoutFun}>Logout user</button></p>
       <h3>Create new blog</h3>
